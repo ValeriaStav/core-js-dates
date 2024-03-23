@@ -31,8 +31,8 @@ function dateToTimestamp(date) {
  * Date(2023, 5, 1, 8, 20, 55) => '08:20:55'
  * Date(2015, 10, 20, 23, 15, 1) => '23:15:01'
  */
-function getTime(/* date */) {
-  throw new Error('Not implemented');
+function getTime(date) {
+  return date.toLocaleTimeString('it-IT');
 }
 
 /**
@@ -46,8 +46,10 @@ function getTime(/* date */) {
  * '03 Dec 1995 00:12:00 UTC' => 'Sunday'
  * '2024-01-30T00:00:00.000Z' => 'Tuesday'
  */
-function getDayName(/* date */) {
-  throw new Error('Not implemented');
+function getDayName(date) {
+  const convertDate = Date.parse(date);
+  const options = { weekday: 'long' };
+  return new Intl.DateTimeFormat('en-US', options).format(convertDate);
 }
 
 /**
@@ -61,8 +63,21 @@ function getDayName(/* date */) {
  * Date('2024-02-13T00:00:00Z') => Date('2024-02-16T00:00:00Z')
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
-function getNextFriday(/* date */) {
-  throw new Error('Not implemented');
+function getNextFriday(date) {
+  const weekday = date.getDay();
+  const date2 = date.getDate();
+  let date3;
+
+  if (weekday < 5) {
+    date3 = date2 + (5 - weekday);
+  } else if (weekday === 5) {
+    date3 = date2 + 7;
+  } else {
+    date3 = date2 + 6;
+  }
+
+  date.setDate(date3);
+  return date;
 }
 
 /**
@@ -76,8 +91,8 @@ function getNextFriday(/* date */) {
  * 1, 2024 => 31
  * 2, 2024 => 29
  */
-function getCountDaysInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountDaysInMonth(month, year) {
+  return new Date(year, month, 0).getDate();
 }
 
 /**
@@ -129,6 +144,12 @@ function isDateInPeriod(/* date, period */) {
  */
 function formatDate(/* date */) {
   throw new Error('Not implemented');
+
+  // const date1 = new Date(Date.UTC(date));
+  // // Вывод toLocaleDateString() без аргументов зависит от реализации,
+  // // локали по умолчанию и часового пояса по умолчанию
+  // return date1.toLocaleDateString();
+  // "12/11/2012", если код запущен с локалью en-US и часовым поясом America/Los_Angeles;
 }
 
 /**
